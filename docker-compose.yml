@@ -1,0 +1,71 @@
+# docker-compose.ymlフォーマットのバージョン
+version: '3.4'
+services:
+  # backend
+  backend:
+    build: 
+        context: .
+        dockerfile: DockerfileBack
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    command: "python VuePocker/manage.py runserver localhost:3035"
+    environment:
+      DB_SERVER_HOST: db
+    # ローカルのsrcをコンテナにマウント
+    volumes:
+      - ./src/backend/django:/backend
+    ports:
+      - 3035:3035
+    depends_on:
+      - db
+    tty: true
+
+  # front
+  frontend:
+    build: 
+        context: .
+        dockerfile: DockerfileFront
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    command: [ bash, -c, 'npm run dev']
+    volumes:
+     - ./src/frontend:/frontend
+    ports:
+     - 3000:3000
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+    networks:
+     - vue-poker
+    tty: true
+  # MySQLコンテナ定義
+  db:
+    # mysql8.0でコンテナ作成
+    image: mysql:8.0
+    volumes:
+      # Mysql8.0のデフォルトの認証形式をmysql_native_passwordに設定
+      - ./mysql-confd:/etc/mysql/conf.d
+      # ローカルで保持しているDBをコンテナにマウント
+      - db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: vuepoker
+      MYSQL_DATABASE: vuepoker
+      MYSQL_USER: vuepoker
+      MYSQL_PASSWORD: vuepoker
+    ports:
+     - 3306:3306
+
+volumes:
+  db-volume:
+networks:
+  vue-poker:
+    driver: bridge
+    ipam: 
+        config: 
+            - subnet: 192.170.255.0/24
