@@ -1,0 +1,52 @@
+{
+    "name": "vue-pocker",
+    "version": "1.0.0",
+    "author": "DIO0550",
+    "private": true,
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "json",
+            "vue"
+        ],
+        "transform": {
+            ".*\\.(vue)$": "vue-jest",
+            "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+        },
+        "moduleNameMapper": {
+            "^@/(.*)$": "<rootDir>/$1"
+        }
+    },
+    "scripts": {
+        "test": "jest",
+        "dev": "webpack-dev-server --config ./configration/webpack.config.js ",
+        "build": "webpack --watch --config ./configration/webpack.config.js",
+        "start": "webpack-dev-server --open --inline --progress --config ./configration/webpack.config.js --history-api-fallback"
+    },
+    "dependencies": {
+        "nuxt": "^2.0.0",
+        "@nuxt/typescript-runtime": "^0.4.0"
+    },
+    "devDependencies": {
+        "@nuxt/typescript-build": "^0.6.0",
+        "@nuxtjs/eslint-config-typescript": "^1.0.0",
+        "@nuxtjs/eslint-module": "^1.0.0",
+        "@vue/test-utils": "^1.0.0-beta.27",
+        "babel-eslint": "^10.1.0",
+        "babel-jest": "^24.1.0",
+        "dpoker-lib": "0.0.3",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.10.1",
+        "eslint-loader": "^3.0.3",
+        "eslint-plugin-nuxt": ">=0.4.2",
+        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-vue": "^6.2.2",
+        "jest": "^24.1.0",
+        "node-sass": "^4.13.1",
+        "prettier": "^1.19.1",
+        "sass-loader": "^8.0.2",
+        "ts-jest": "^25.0.0",
+        "vue-jest": "^4.0.0-0",
+        "vue-loader": "^15.9.1"
+    }
+}
