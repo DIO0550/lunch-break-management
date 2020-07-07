@@ -79,7 +79,6 @@ module.exports = {
     // importするときに省略できる拡張子の設定
     extensions: ['.js', '.vue'],
     alias: {
-      // 例えばmain.js内で `import Vue from 'vue';` と記述したときの`from vue`が表すファイルパスを指定
       'vue$': 'vue/dist/vue.esm.js'
     },
   },

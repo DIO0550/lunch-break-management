@@ -13,15 +13,18 @@ services:
         max-file: "1"
     command: "python VuePocker/manage.py runserver localhost:3035"
     environment:
+      WEBPACKER_DEV_SERVER_HOST: frontend
+      WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
       DB_SERVER_HOST: db
     # ローカルのsrcをコンテナにマウント
     volumes:
-      - ./src/backend/django:/backend
+      - ./src/backend:/backend
     ports:
       - 5000:5000
     depends_on:
       - db
     tty: true
+    
 
   # front
   frontend:
@@ -33,17 +36,18 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: [ bash, -c, 'npm run dev']
+    command: [ bash, -c, 'npm run start --prefix frontend/']
     volumes:
      - ./src/frontend:/frontend
     ports:
-     - 3000:3000
+     - 3035:3035
     environment:
-      PORT: 3000
-      HOST: 0.0.0.0
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
     networks:
-     - vue-poker
+     - lunchbreak
     tty: true
+    
+    
   # MySQLコンテナ定義
   db:
     # mysql8.0でコンテナ作成
@@ -54,17 +58,17 @@ services:
       # ローカルで保持しているDBをコンテナにマウント
       - db-volume:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: vuepoker
-      MYSQL_DATABASE: vuepoker
-      MYSQL_USER: vuepoker
-      MYSQL_PASSWORD: vuepoker
+      MYSQL_ROOT_PASSWORD: lunchbreak
+      MYSQL_DATABASE: lunchbreak
+      MYSQL_USER: lunchbreak
+      MYSQL_PASSWORD: lunchbreak
     ports:
      - 3306:3306
 
 volumes:
   db-volume:
 networks:
-  vue-poker:
+  lunchbreak:
     driver: bridge
     ipam: 
         config: 
