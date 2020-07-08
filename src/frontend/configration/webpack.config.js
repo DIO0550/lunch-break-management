@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
   // entry point
-  entry: './JavaScript/index.js',
+  entry: './JS/index.js',
   // 出力するパス
   output: {
     path: `${__dirname}/../dist/`,
@@ -18,7 +18,8 @@ module.exports = {
     noInfo: true,
     historyApiFallback: true,
     watchContentBase: true,
-    port:8080
+    host: '0.0.0.0',
+    port: 3035
   },
   devtool: 'source-map',
   module: {
@@ -85,7 +86,7 @@ module.exports = {
   // プラグインを列挙
   plugins: [
     new HtmlWebpackPlugin({
-      template: "../src/index.html"
+      template: "./index.html"
     }),
     new VueLoaderPlugin(),
     new webpack.HotModuleReplacementPlugin()

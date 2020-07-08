@@ -11,7 +11,6 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: "python VuePocker/manage.py runserver localhost:3035"
     environment:
       WEBPACKER_DEV_SERVER_HOST: frontend
       WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
@@ -36,7 +35,7 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: [ bash, -c, 'npm run start --prefix frontend/']
+    command: [ bash, -c, 'npm run start']
     volumes:
      - ./src/frontend:/frontend
     ports:
@@ -72,4 +71,4 @@ networks:
     driver: bridge
     ipam: 
         config: 
-            - subnet: 192.170.255.0/24
+            - subnet: 192.150.255.0/24
