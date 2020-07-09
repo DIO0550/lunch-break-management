@@ -1,96 +1,63 @@
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require("vue-loader");
+
 
 module.exports = {
-  // entry point
-  entry: './JS/index.js',
-  // 出力するパス
+  mode: "development",
+  entry: [
+    './js/index.js'
+  ],
   output: {
     path: `${__dirname}/../dist/`,
     filename: 'build.js'
   },
-  // サーバー
+  devtool: 'source-map',
   devServer: {
-    contentBase: `/dist/`,
+    index: 'index.html',
     publicPath: '/',
-    noInfo: true,
+    contentBase: `${__dirname}/../dist/`,
     historyApiFallback: true,
     watchContentBase: true,
     host: '0.0.0.0',
-    port: 3035
+    port:3035
   },
-  devtool: 'source-map',
   module: {
     rules: [
-      // 拡張子.vueのファイルに対する設定
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      // 拡張子.jsのファイルに対する設定
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        include: [ 
-            path.resolve(__dirname, "src"),
-        ],
         use: [
           {
             loader: 'babel-loader',
-          },
+          }
         ]
       },
       {
-        test: /\.css$/,
-        use: [ 'vue-style-loader', 'css-loader']
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+          }
+        }
       },
-      {
-        test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|svg|otf)$/,
-        loader: 'url-loader'
-      },
-      {
-        test: /\.html$/,
-        loader: "html-loader"
-      },
-      {
-        test: /\.(ogg|mp3|wav|mpe?g)$/i,
-        use: 'file-loader',
-        exclude: /(node_modules)/
-      }
     ]
   },
-  externals: [
-    {
-      jquery: 'jQuery'
-    }
-  ],
-  resolve: {
-    // モジュールを読み込むときに検索するディレクトリの設定
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
-    // importするときに省略できる拡張子の設定
-    extensions: ['.js', '.vue'],
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js'
-    },
-  },
-  // プラグインを列挙
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html"
+      filename: 'index.html'
     }),
-    new VueLoaderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin()
   ],
+  resolve: {
+    extensions: [".vue", ".js", "sass", "css"],
+    alias: {
+      "vue$": "vue/dist/vue.esm.js"
+    }
+  },
   performance: { hints: false},
-  mode: "production"
 }
