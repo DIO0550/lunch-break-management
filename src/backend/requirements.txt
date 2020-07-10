@@ -1,2 +1,7 @@
 flask
 flask-sqlalchemy
+SQLAlchemy
+Flask-Cors
+marshmallow
+marshmallow-sqlalchemy
+flask-marshmallow

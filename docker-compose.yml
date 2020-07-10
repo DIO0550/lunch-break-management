@@ -11,6 +11,7 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
+    command: [ bash, -c, "python", "app.py"]
     environment:
       WEBPACKER_DEV_SERVER_HOST: frontend
       WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
