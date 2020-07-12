@@ -1,4 +1,4 @@
-rom flask import Blueprint, request, make_response, jsonify
+from flask import Blueprint, request, make_response, jsonify
 from api.models import User, UserSchema
 import json
 
