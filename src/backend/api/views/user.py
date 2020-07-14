@@ -3,9 +3,9 @@ from api.models import User, UserSchema
 import json
 
 # ルーティング設定
-app = Blueprint('api', __name__)
+user_router = Blueprint('user_router', __name__)
 
-@app.route('/users', methods=['GET'])
+@user_router.route('/users', methods=['GET'])
 def getUserList():
 
   users = User.getUserList()
@@ -16,7 +16,7 @@ def getUserList():
     'users': user_schema.dump(users).data
   }))
 
-@app.route('/users', methods=['POST'])
+@user_router.route('/users', methods=['POST'])
 def registUser():
 
   # jsonデータを取得する
