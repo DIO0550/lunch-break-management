@@ -6,3 +6,4 @@ marshmallow
 marshmallow-sqlalchemy
 flask-marshmallow
 flask-migrate
+PyMySQL

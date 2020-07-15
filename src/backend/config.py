@@ -5,10 +5,10 @@ class SystemConfig:
 
   DEBUG = True
 
-  DATABASE_INFO = 'mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8'.format(**{
+  SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8'.format(**{
       'user': 'lunchbreak',
       'password': 'lunchbreak',
-      'host': 'lunchbreak',
+      'host': '192.150.255.10:3306',
       'db_name': 'lunchbreak'
   })
 

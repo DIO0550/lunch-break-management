@@ -64,6 +64,9 @@ services:
       MYSQL_PASSWORD: lunchbreak
     ports:
      - 3306:3306
+    networks:
+      lunchbreak:
+        ipv4_address: 192.150.255.10
 
 volumes:
   db-volume:

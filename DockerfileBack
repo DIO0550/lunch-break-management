@@ -7,6 +7,8 @@ WORKDIR /backend
 # requirements.txtをコピー
 COPY src/backend/requirements.txt /backend
 
+ENV FLASK_APP /backend/app.py
+
 RUN pip install --upgrade pip  
 
 # パッケージインストール
