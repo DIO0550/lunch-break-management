@@ -11,7 +11,7 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: ["python", "app.py"]
+    command: "flask run --host 0.0.0.0 --port 5000"
     environment:
       WEBPACKER_DEV_SERVER_HOST: frontend
       WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
@@ -24,7 +24,8 @@ services:
     depends_on:
       - db
     networks:
-     - lunchbreak
+      lunchbreak:
+        ipv4_address: 192.150.255.11
     tty: true
     
 

@@ -16,6 +16,10 @@ def getUserList():
     'users': user_schema.dump(users).data
   }))
 
+@user_router.route('/', methods=['GET'])
+def getHellowWorld():
+  return "hellow"
+
 @user_router.route('/users', methods=['POST'])
 def registUser():
 
