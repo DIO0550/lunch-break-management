@@ -19,8 +19,8 @@
     },
     "scripts": {
         "test": "jest",
-        "dev": "webpack-dev-server --config ./configration/webpack.config.js ",
-        "build": "webpack --watch --config ./configration/webpack.config.js",
+        "dev": "webpack-dev-server --config ./configration/webpack.dev.js ",
+        "build": "webpack --watch --config ./configration/webpack.prod.js",
         "start": "webpack-dev-server --open --inline --progress --config ./configration/webpack.config.js --history-api-fallback"
     },
     "dependencies": {},
@@ -34,6 +34,7 @@
         "html-webpack-plugin": "^4.3.0",
         "node-sass": "^4.14.1",
         "sass-loader": "^9.0.2",
+        "terser-webpack-plugin": "^3.0.7",
         "ts-loader": "^8.0.1",
         "typescript": "^3.9.7",
         "vue": "^2.6.11",
