@@ -6,20 +6,11 @@ const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
     entry: [
-        './js/index.ts'
+        './ts/index.ts'
     ],
     output: {
         path: `${__dirname}/../dist/`,
         filename: 'build.js'
-    },
-    devServer: {
-        index: 'index.html',
-        publicPath: '/',
-        contentBase: `${__dirname}/../dist/`,
-        historyApiFallback: true,
-        watchContentBase: true,
-        host: '0.0.0.0',
-        port:3035
     },
     module: {
         rules: [
@@ -32,11 +23,12 @@ module.exports = {
                     }
                 ]
             },
-            {                test: /\.ts$/,
+            {                
+                test: /\.(ts|tsx)?(\.erb)?$/,
                 use: [{
                     loader: 'ts-loader',
                     options: {
-                        appendTsSuffixTo: [/\.vue$/]    
+                        appendTsSuffixTo: [/\.vue$/]
                     }
                 }]
             },
