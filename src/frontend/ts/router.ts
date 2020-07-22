@@ -1,12 +1,13 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
+import LunchBreakList from "../component/LunchBreakList.vue";
 
 Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
         name: "ContactList",
-        component: AddressBookContactList,
+        component: LunchBreakList,
         props: true
     }
 ];
