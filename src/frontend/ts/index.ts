@@ -8,7 +8,7 @@ Vue.config.devtools = true;
 
 new Vue({
   el: '#App',
-  template: '<app/>',
+  template: '<App/>',
   components: { App },
   router
 });

@@ -3,7 +3,6 @@
       <div v-for="user in users" :key="user.id">
         {{ user.name }}
       </div>
-      アイウエオ
   </div>
 </template>
 
