@@ -1,12 +1,17 @@
 <template>
   <div>
       <div v-for="user in users" :key="user.id">
-        {{ user.name }}
+        <lunch-break-data 
+          :id="user.id"
+          :name="user.name"
+          :startLunchBreak="'2018-01-01T02:00:00+09:00'"
+        />
       </div>
   </div>
 </template>
 
 <script lang="ts">
+import LunchBreakData from './LunchBreakData.vue'
 export default {
   data() {
     return {
@@ -22,6 +27,9 @@ export default {
         }
       ]
     }
+  },
+  components: {
+    LunchBreakData
   },
   // TODO: API呼び出しなど
   computed: {
