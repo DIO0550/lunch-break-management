@@ -11,30 +11,16 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+import { User } from "../types/user"
 import LunchBreakData from './LunchBreakData.vue'
-export default {
-  data() {
-    return {
-      // TODO: APIから取得した値
-      users: [
-        {
-          id: "1",
-          name: "斎藤太郎"
-        },
-        {
-          id: "2",
-          name: "加藤二郎"
-        }
-      ]
-    }
-  },
-  components: {
-    LunchBreakData
-  },
-  // TODO: API呼び出しなど
-  computed: {
-    
-  },
+
+@Component
+export default class LunchBreakList extends Vue {
+  user?: Array<User>
+  
 }
 </script>
 
