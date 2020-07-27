@@ -1,12 +1,10 @@
 <template>
   <div>
-      <div v-for="user in users" :key="user.id">
-        <lunch-break-data 
-          :id="user.id"
-          :name="user.name"
-          :startLunchBreak="'2018-01-01T02:00:00+09:00'"
-        />
-      </div>
+      <LunchBreakData v-for="user in users" :key="user.id"
+        :id="user.id"
+        :name="user.name"
+        :startLunchBreak="'2018-01-01T05:00:00'"
+      />
   </div>
 </template>
 
@@ -17,9 +15,24 @@ import Component from 'vue-class-component'
 import { User } from "../types/user"
 import LunchBreakData from './LunchBreakData.vue'
 
-@Component
+@Component({
+  components: {
+    LunchBreakData,
+  },
+})
 export default class LunchBreakList extends Vue {
-  user?: Array<User>
+  users?: Array<User> = [
+    {
+      id: 1,
+      name: "斎藤一郎",
+      startLunch: "1999-12-31T23:59:59"
+    },
+    {
+      id: 2,
+      name: "斎藤二郎",
+      startLunch: "1999-12-31T23:59:59"
+    },
+  ]
   
 }
 </script>

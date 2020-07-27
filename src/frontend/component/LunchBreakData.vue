@@ -4,56 +4,54 @@
       {{ name }}
     </div>
     <div>
-      {{ startTime }} 
+      {{ startTime() }} 
     </div>
     <div>
-      {{ endTime }} 
+      {{ endTime() }} 
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-      required: true
-    },
-    name: {
-      type: String,        
-      default: 'No Name',  
-      required: true,       
-    },
-    startLunchBreak: {
-      type: String,
-      defalt: null,
-      required: false
-    }
-  },
-  methods: {
-    startTime() {
-      if (this.startLunchBreak) {
-        return "休憩前"
-      }
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-      return this.name
-    },
-    endTime() {
-      if (this.startLunchBreak) {
-        return "休憩前"
-      }
-      let endDate = new Date(this.startLunchBreak);
-      // １時間後
-      endDate.setHours(endDate.getHours() + 1);
-      let endTime = ('0' + endDate.getHours()).slice(-2) + ':' + ('0' + endDate.getMinutes()).slice(-2) + ':' + ('0' + endDate.getSeconds()).slice(-2)
+@Component
+export default class LunchBreakData extends Vue {
+  @Prop({ type: Number, required: true })
+  id?: number;
+
+  @Prop({ type: String, required: true })
+  name?: string;
+
+  @Prop({ type: String, required: false })
+  startLunchBreak?: string;
+
+  startTime(): string {
+
+    if (this.startLunchBreak == undefined) {
+      return "休憩前"
     }
-  },
+
+    return this.startLunchBreak!
+  }
+  
+  endTime(): string {
+    if (this.startLunchBreak == undefined) {
+      return "休憩前"
+    }
+    let endDate = new Date(this.startLunchBreak);
+    // １時間後
+    endDate.setHours(endDate.getHours() + 1);
+    let endTime: string = ('0' + endDate.getHours()).slice(-2) + ':' + ('0' + endDate.getMinutes()).slice(-2) + ':' + ('0' + endDate.getSeconds()).slice(-2)
+
+    return endTime
+  }
 }
 </script>
 
-<style lang="sass" scoped>
-  .container
-    border: medium dashed green;
-    display: flexbox;
+<style lang="sass">
+
+.container
+  background-color: rgb(60, 163, 231)
+  
 </style>

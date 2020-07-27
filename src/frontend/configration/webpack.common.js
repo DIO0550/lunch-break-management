@@ -42,6 +42,24 @@ module.exports = {
                     }
                 }
             },
+            {
+                test: /\.(scss|sass|css)$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {  modules: true }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                indentedSyntax: true
+                            }
+                        }
+                    }
+                ]
+            },
         ]
     },
     plugins: [
