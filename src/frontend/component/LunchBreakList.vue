@@ -5,6 +5,9 @@
         :name="user.name"
         :startLunchBreak="'2018-01-01T05:00:00'"
       />
+      <div class="test">
+        アイウエオ
+      </div>
   </div>
 </template>
 
@@ -37,6 +40,9 @@ export default class LunchBreakList extends Vue {
 }
 </script>
 
-<style>
-
+<style lang="sass" scoped>
+  .test
+    color: red; 
+    background-color: blue;
+  
 </style>

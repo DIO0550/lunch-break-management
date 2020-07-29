@@ -48,10 +48,3 @@ export default class LunchBreakData extends Vue {
   }
 }
 </script>
-
-<style lang="sass">
-
-.container
-  background-color: rgb(60, 163, 231)
-  
-</style>
