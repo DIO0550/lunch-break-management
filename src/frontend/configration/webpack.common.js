@@ -33,32 +33,29 @@ module.exports = {
                 }]
             },
             {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.(scss|sass)$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {  modules: true }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sassOptions: {
-                                indentedSyntax: true
-                            }
-                        }
-                    }
-                ]
-            },      
-            {
-                test: /\.css$/,
-                use: [ 'vue-style-loader', 'css-loader']
-            },
-        ]
+           test: /\.vue$/,
+           loader: 'vue-loader',
+           options: {
+             loaders: {
+               // IMPORTANT for scss (lang="sass") in .vue files
+               sass: 'style-loader!css-loader!sass-loader?',
+             },
+           },
+         },
+         {
+           test: /\.(sass|scss)$/,
+           use: [
+             'style-loader',
+             'css-loader',
+             // IMPORTANT for scss files
+             { loader: 'sass-loader', options: { includePaths: ['nodeModules'] } },
+           ],
+         },
+         {
+           test: /\.css$/,
+           use: ['style-loader', 'css-loader'],
+         },
+       ],
     },
     plugins: [
         new HtmlWebpackPlugin({      
