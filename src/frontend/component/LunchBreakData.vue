@@ -48,3 +48,9 @@ export default class LunchBreakData extends Vue {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.container
+  background-color: red;
+  
+</style>

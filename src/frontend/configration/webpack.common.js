@@ -36,21 +36,23 @@ module.exports = {
            test: /\.vue$/,
            loader: 'vue-loader',
            options: {
-             loaders: {
-               // IMPORTANT for scss (lang="sass") in .vue files
-               sass: 'style-loader!css-loader!sass-loader?',
-             },
+                loaders: {
+                scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+                sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+                }
            },
          },
          {
-           test: /\.(sass|scss)$/,
-           use: [
-             'style-loader',
-             'css-loader',
-             // IMPORTANT for scss files
-             { loader: 'sass-loader', options: { includePaths: ['nodeModules'] } },
-           ],
-         },
+            test: /\.s[ac]ss$/i,
+            use: [
+                // Creates `style` nodes from JS strings
+                'style-loader',
+                // Translates CSS into CommonJS
+                'css-loader',
+                // Compiles Sass to CSS
+                'sass-loader',
+                ],
+            },
          {
            test: /\.css$/,
            use: ['style-loader', 'css-loader'],
