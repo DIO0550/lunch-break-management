@@ -1,12 +1,13 @@
 <template>
-  <div class="container">
-    <div>
+  <div class="table-block">
+    <div class="table-data name-data">
       {{ name }}
     </div>
-    <div>
+    <div div class="table-data start-time-data">
       {{ startTime() }} 
+      <button>開始</button>
     </div>
-    <div>
+    <div div class="table-data end-time-data">
       {{ endTime() }} 
     </div>
   </div>
@@ -50,7 +51,22 @@ export default class LunchBreakData extends Vue {
 </script>
 
 <style lang="sass" scoped>
-.container
-  background-color: red;
+@import './style/common.sass'
+
+.table-block
+  display: table;
+  width: $table-width;
+
+.table-data
+  display: table-cell;
+
+.name-data
+  width: $table-name-width;
+
+.start-time-data
+  width: $table-start-time-width;
+
+.end-time-data
+  width: $table-start-time-width;
   
 </style>
