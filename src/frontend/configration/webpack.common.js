@@ -37,22 +37,26 @@ module.exports = {
            loader: 'vue-loader',
            options: {
                 loaders: {
-                scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
-                sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+                    scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+                    sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
                 }
            },
          },
          {
-            test: /\.s[ac]ss$/i,
+            test: /\.sass$/,
             use: [
-                // Creates `style` nodes from JS strings
-                'style-loader',
-                // Translates CSS into CommonJS
+                'vue-style-loader',
                 'css-loader',
-                // Compiles Sass to CSS
-                'sass-loader',
-                ],
-            },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sassOptions: {
+                            indentedSyntax: true
+                        }
+                    }
+                }
+            ]
+        },
          {
            test: /\.css$/,
            use: ['style-loader', 'css-loader'],
