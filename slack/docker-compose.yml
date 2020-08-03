@@ -1,0 +1,81 @@
+# docker-compose.ymlフォーマットのバージョン
+version: '3.4'
+services:
+  # backend
+  backend:
+    build: 
+        context: .
+        dockerfile: DockerfileBack
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    command: "flask run --host 0.0.0.0 --port 5000"
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: frontend
+      WEBPACKER_DEV_SERVER_PUBLIC: 0.0.0.0:3035
+      DB_SERVER_HOST: db
+    # ローカルのsrcをコンテナにマウント
+    volumes:
+      - ./src/backend:/backend
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    networks:
+      lunchbreak:
+        ipv4_address: 192.150.255.11
+    tty: true
+    
+
+  # front
+  frontend:
+    build: 
+        context: .
+        dockerfile: DockerfileFront
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    command: [ bash, -c, 'npm run start']
+    volumes:
+     - ./src/frontend:/frontend
+    ports:
+     - 3035:3035
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    networks:
+     - lunchbreak
+    tty: true
+    
+    
+  # MySQLコンテナ定義
+  db:
+    # mysql8.0でコンテナ作成
+    image: mysql:8.0
+    volumes:
+      # Mysql8.0のデフォルトの認証形式をmysql_native_passwordに設定
+      - ./mysql-confd:/etc/mysql/conf.d
+      # ローカルで保持しているDBをコンテナにマウント
+      - db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: lunchbreak
+      MYSQL_DATABASE: lunchbreak
+      MYSQL_USER: lunchbreak
+      MYSQL_PASSWORD: lunchbreak
+    ports:
+     - 3306:3306
+    networks:
+      lunchbreak:
+        ipv4_address: 192.150.255.10
+
+volumes:
+  db-volume:
+networks:
+  lunchbreak:
+    driver: bridge
+    ipam: 
+        config: 
+            - subnet: 192.150.255.0/24
