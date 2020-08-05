@@ -4,10 +4,10 @@ RUN apt-get update && apt-get install -y yarn
 RUN apt-get install -y nodejs npm && npm install n -g && n 12.0.0
 
 
-RUN mkdir frontend
-WORKDIR /frontend
+RUN mkdir src
+WORKDIR /src
 
-ADD src/frontend /frontend
+ADD src/ /src
 
 RUN npm install -D
 RUN npm rebuild node-sass
