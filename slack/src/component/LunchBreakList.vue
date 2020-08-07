@@ -23,6 +23,9 @@ import Component from 'vue-class-component'
 import { User } from "../types/user"
 import LunchBreakData from './LunchBreakData.vue'
 
+// dummyのjsonファイルを読み込む
+import user_list from '../dummy/user_list_dummy.json';
+
 @Component({
   components: {
     LunchBreakData,
@@ -31,13 +34,13 @@ import LunchBreakData from './LunchBreakData.vue'
 export default class LunchBreakList extends Vue {
   users?: Array<User> = [
     {
-      id: 1,
-      name: "斎藤一郎",
+      id: user_list.members[0].id,
+      name: user_list.members[0].name,
       startLunch: "1999-12-31T23:59:59"
     },
     {
-      id: 2,
-      name: "斎藤二郎",
+      id: user_list.members[1].id,
+      name: user_list.members[1].name,
       startLunch: "1999-12-31T23:59:59"
     },
   ]

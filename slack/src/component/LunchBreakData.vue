@@ -18,8 +18,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class LunchBreakData extends Vue {
-  @Prop({ type: Number, required: true })
-  id?: number;
+  @Prop({ type: String, required: true })
+  id?: string;
 
   @Prop({ type: String, required: true })
   name?: string;
