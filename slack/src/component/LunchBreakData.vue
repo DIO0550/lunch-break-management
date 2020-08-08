@@ -3,6 +3,9 @@
     <div class="table-data name-data">
       {{ name }}
     </div>
+    <div class="table-data status-data">
+      {{ lunchStatus() }}
+    </div>
     <div div class="table-data start-time-data">
       {{ startTime() }} 
       <button>開始</button>
@@ -26,6 +29,18 @@ export default class LunchBreakData extends Vue {
 
   @Prop({ type: String, required: false })
   startLunchBreak?: string;
+
+  // 休憩中ステータス
+  static readonly LAUNCH_STATUS: string = "休憩中"
+  static readonly NOT_LAUNCH_STATUS: string = "-"
+
+
+  lunchStatus(): string {
+      if (this.startLunchBreak == undefined) {
+        return LunchBreakData.NOT_LAUNCH_STATUS
+      }
+      return LunchBreakData.LAUNCH_STATUS
+  }
 
   startTime(): string {
 
@@ -62,6 +77,9 @@ export default class LunchBreakData extends Vue {
 
 .name-data
   width: $table-name-width;
+
+.status-data
+  width: $table-status-width;
 
 .start-time-data
   width: $table-start-time-width;
