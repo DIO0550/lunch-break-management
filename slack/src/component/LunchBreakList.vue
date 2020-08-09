@@ -27,6 +27,7 @@ import LunchBreakData from './LunchBreakData.vue'
 // dummyのjsonファイルを読み込む
 // TODO: API呼び出し
 import user_list from '../dummy/user_list_dummy.json';
+import { callUserListAPI,  callUsersProfileAPI } from '../ts/api.ts'; 
 
 @Component({
   components: {
@@ -34,19 +35,33 @@ import user_list from '../dummy/user_list_dummy.json';
   },
 })
 export default class LunchBreakList extends Vue {
-  users?: Array<User> = [
-    {
-      id: user_list.members[0].id,
-      name: user_list.members[0].name,
-      startLunch: "1999-12-31T23:59:59"
-    },
-    {
-      id: user_list.members[1].id,
-      name: user_list.members[1].name,
-      startLunch: "1999-12-31T23:59:59"
-    },
-  ]
-  
+  users?: Array<User> = []
+
+  usersProfiles: Array<any> = []
+
+  successCallUsersListAPI(response: any) {
+
+    for (var member of response.members) {
+      callUsersProfileAPI(member.id, this.successCallUsersProfileAPI, this.failedCallUsersProfileAPI)
+    }
+  }
+
+  failedCallUserListAPI(err: any) {
+    console.log(err)
+  }
+
+  successCallUsersProfileAPI(response: any) {
+    this.usersProfiles.push(response)
+  }
+
+  failedCallUsersProfileAPI(err: any) {
+    console.log(err)
+  }
+
+  // mouted
+  mounted() {
+    callUserListAPI(this.successCallUsersListAPI, this.failedCallUserListAPI)
+  }
 }
 </script>
 

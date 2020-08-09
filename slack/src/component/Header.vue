@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-export default {
+export default class Header extends Vue {
 
 }
 </script>
