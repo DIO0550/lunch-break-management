@@ -8,8 +8,10 @@
       </div>
       <LunchBreakData v-for="user in users" :key="user.id"
         :id="user.id"
-        :name="user.name"
-        :startLunchBreak="'2018-01-01T05:00:00'"
+        :display_name="user.display_name"
+        :status_text="user.status_text"
+        :status_emoji="user.status_emoji"
+        :status_expiration="user.status_expiration"
       />
       <div>
         <button>追加</button>
@@ -21,12 +23,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import { User } from "../types/user"
+import { User, UserProfile } from "../types/user"
 import LunchBreakData from './LunchBreakData.vue'
 
-// dummyのjsonファイルを読み込む
-// TODO: API呼び出し
-import user_list from '../dummy/user_list_dummy.json';
+import slackConfig from '../configration/slackConfig.json';
 import { callUserListAPI,  callUsersProfileAPI } from '../ts/api.ts'; 
 
 @Component({
@@ -35,9 +35,7 @@ import { callUserListAPI,  callUsersProfileAPI } from '../ts/api.ts';
   },
 })
 export default class LunchBreakList extends Vue {
-  users?: Array<User> = []
-
-  usersProfiles: Array<any> = []
+  users: Array<User> = []
 
   successCallUsersListAPI(response: any) {
 
@@ -50,12 +48,37 @@ export default class LunchBreakList extends Vue {
     console.log(err)
   }
 
-  successCallUsersProfileAPI(response: any) {
-    this.usersProfiles.push(response)
+  successCallUsersProfileAPI(userID: string, response: any) {
+    let result: boolean = response.ok
+    if (!result) {
+      return;
+    }
+
+    let profile: UserProfile = response.profile
+    if (profile.display_name.length < 1) {
+      return;
+    }
+
+    if (this.isIgonoreUser(profile.display_name)) {
+      return;
+    }
+    let user: User = {
+      id: userID,
+      display_name: profile.display_name + profile.status_emoji,
+      status_text: profile.status_text,
+      status_emoji: profile.status_emoji,
+      status_expiration: profile.status_expiration
+    }
+    this.users.push(user)
   }
 
   failedCallUsersProfileAPI(err: any) {
     console.log(err)
+  }
+
+  isIgonoreUser(displayName: string): boolean {
+    let ignoreUsers:Array<string> = slackConfig["ignore-users"];
+    return ignoreUsers.includes(displayName)
   }
 
   // mouted

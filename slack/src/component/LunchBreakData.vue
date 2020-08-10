@@ -1,17 +1,13 @@
 <template>
   <div class="table-block">
     <div class="table-data name-data">
-      {{ name }}
+      {{ display_name }}
     </div>
     <div class="table-data status-data">
-      {{ lunchStatus() }}
-    </div>
-    <div div class="table-data start-time-data">
-      {{ startTime() }} 
-      <button>開始</button>
+      {{ status_text }}
     </div>
     <div div class="table-data end-time-data">
-      {{ endTime() }} 
+      {{ status_expiration }} 
     </div>
   </div>
 </template>
@@ -25,43 +21,17 @@ export default class LunchBreakData extends Vue {
   id?: string;
 
   @Prop({ type: String, required: true })
-  name?: string;
+  display_name?: string;
 
   @Prop({ type: String, required: false })
-  startLunchBreak?: string;
+  status_text?: string;
 
-  // 休憩中ステータス
-  static readonly LAUNCH_STATUS: string = "休憩中"
-  static readonly NOT_LAUNCH_STATUS: string = "-"
+  @Prop({ type: String, required: false })
+  status_emoji?: string;
 
+  @Prop({ type: Number, required: false })
+  status_expiration?: number;
 
-  lunchStatus(): string {
-      if (this.startLunchBreak == undefined) {
-        return LunchBreakData.NOT_LAUNCH_STATUS
-      }
-      return LunchBreakData.LAUNCH_STATUS
-  }
-
-  startTime(): string {
-
-    if (this.startLunchBreak == undefined) {
-      return "休憩前"
-    }
-
-    return this.startLunchBreak!
-  }
-  
-  endTime(): string {
-    if (this.startLunchBreak == undefined) {
-      return "休憩前"
-    }
-    let endDate = new Date(this.startLunchBreak);
-    // １時間後
-    endDate.setHours(endDate.getHours() + 1);
-    let endTime: string = ('0' + endDate.getHours()).slice(-2) + ':' + ('0' + endDate.getMinutes()).slice(-2) + ':' + ('0' + endDate.getSeconds()).slice(-2)
-
-    return endTime
-  }
 }
 </script>
 

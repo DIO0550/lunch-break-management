@@ -11,7 +11,7 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: [ bash, -c, 'npm run start']
+    command: [ bash, -c, 'npm run dev']
     volumes:
      - ./src:/src
     ports:

@@ -19,11 +19,11 @@ export function callUserListAPI(success: (response: any) => void, failed: (err: 
         });
 }
 
-export function callUsersProfileAPI(userId: string, success: (response: any) => void, failed: (err: any) => void) {
-    let userListURL: string = "users.profile.get?token=" + slackConfig[TOKEN_CONFIG_KEY] + "&user=" + userId
+export function callUsersProfileAPI(userID: string, success: (userID: string, response: any) => void, failed: (err: any) => void) {
+    let userListURL: string = "users.profile.get?token=" + slackConfig[TOKEN_CONFIG_KEY] + "&user=" + userID
     Instance(userListURL)
         .then(function (response: any)  {
-            success(response.data)
+            success(userID, response.data)
         })
         .catch(function (err: any){
             failed(err)

@@ -1,0 +1,6 @@
+{
+    "slack-api-key": "XXXXXXXXXXXXX",
+    "ignore-users": [
+        "Slackbot"
+    ]
+}
