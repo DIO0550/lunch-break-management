@@ -33,6 +33,7 @@
         "babel-jest": "^26.2.2",
         "babel-loader": "^8.1.0",
         "css-loader": "^3.6.0",
+        "emoji-datasource": "^5.0.1",
         "html-webpack-plugin": "^4.3.0",
         "node-sass": "^4.14.1",
         "sass-loader": "^9.0.2",

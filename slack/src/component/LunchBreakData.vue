@@ -1,13 +1,16 @@
 <template>
-  <div class="table-block">
+  <div class="table-block" :class="rowClass()">
     <div class="table-data name-data">
       {{ display_name }}
     </div>
     <div class="table-data status-data">
       {{ status_text }}
     </div>
+    <div div class="table-data start-time-data">
+      {{ statusStartTime() }} 
+    </div>
     <div div class="table-data end-time-data">
-      {{ status_expiration }} 
+      {{ statusEndTime() }} 
     </div>
   </div>
 </template>
@@ -32,6 +35,73 @@ export default class LunchBreakData extends Vue {
   @Prop({ type: Number, required: false })
   status_expiration?: number;
 
+  @Prop({ type: Number, required: true})
+  row?: number;
+
+
+  rowClass(): string {
+    if (this.row == undefined) {
+      return ""
+    } 
+
+    if (this.row % 2 == 0) {
+      return "even-number-row"
+    }
+
+    return "odd-number-row"
+  }
+
+  // statusStartTime(): string {
+  //   if (this.status_expiration == undefined) {
+  //     return "-"
+  //   }
+
+  //   if (this.status_expiration == 0) {
+  //     return "-"
+  //   }
+
+  //   if (this.isMaxEndTime()) {
+  //     return "-"
+  //   } 
+
+  //   let endDateTime = new Date(this.status_expiration * 1000);
+  //   // １時間後
+  //   endDateTime.setHours(endDateTime.getHours() - 1);
+  //   let startTime: string = endDateTime.toLocaleTimeString('ja-JP')
+
+  //   return endDateTime.getHours().toString()
+  // }
+
+  statusEndTime(): string {
+
+    if (this.status_expiration == undefined) {
+      return "-"
+    }
+
+    if (this.status_expiration == 0) {
+      return "-"
+    }
+
+    let endDateTime = new Date(this.status_expiration * 1000);
+    let endTime: string = endDateTime.toLocaleString('ja-JP')
+
+    return endTime
+  }
+  
+  isMaxEndTime(): boolean {
+    if (this.status_expiration == undefined) {
+      return false
+    }
+
+    if (this.status_expiration == 0) {
+      return false
+    }
+
+    let endDateTime = new Date(this.status_expiration * 1000);
+    
+    return (endDateTime.getHours() == 23 && endDateTime.getMinutes() == 59 && endDateTime.getSeconds() == 59);
+  }
+
 }
 </script>
 
@@ -44,6 +114,18 @@ export default class LunchBreakData extends Vue {
 
 .table-data
   display: table-cell;
+  border: 1px solid #3366FF;
+  padding-left: 10px;
+  height: 50px;
+  font-size: 20px;
+  vertical-align: middle;
+  box-sizing: border-box;
+
+.odd-number-row
+  background-color: #CCFFFF;
+
+.even-number-row
+  background-color: #EEFFFF;
 
 .name-data
   width: $table-name-width;

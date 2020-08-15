@@ -3,19 +3,17 @@
       <div class="table-header-block">
         <div class="table-header-name table-header-cell">名前</div>
         <div class="table-header-status table-header-cell">ステータス</div>
-        <div class="table-header-start-time table-header-cell">開始時間</div>
-        <div class="table-header-end-time table-header-cell">開始時間</div>
+        <div class="table-header-start-time table-header-cell">ステータス開始時間</div>
+        <div class="table-header-end-time table-header-cell">ステータス終了時間</div>
       </div>
-      <LunchBreakData v-for="user in users" :key="user.id"
+      <LunchBreakData v-for="(user, index) in users" :key="user.id"
         :id="user.id"
         :display_name="user.display_name"
         :status_text="user.status_text"
         :status_emoji="user.status_emoji"
         :status_expiration="user.status_expiration"
+        :row="index"
       />
-      <div>
-        <button>追加</button>
-      </div>
   </div>
 </template>
 
@@ -55,8 +53,9 @@ export default class LunchBreakList extends Vue {
     }
 
     let profile: UserProfile = response.profile
-    if (profile.display_name.length < 1) {
-      return;
+    if (profile.display_name == undefined || profile.display_name.length == 0) {
+      profile.display_name = "test";
+      //return;
     }
 
     if (this.isIgonoreUser(profile.display_name)) {
@@ -64,7 +63,7 @@ export default class LunchBreakList extends Vue {
     }
     let user: User = {
       id: userID,
-      display_name: profile.display_name + profile.status_emoji,
+      display_name: profile.display_name,
       status_text: profile.status_text,
       status_emoji: profile.status_emoji,
       status_expiration: profile.status_expiration
@@ -92,11 +91,19 @@ export default class LunchBreakList extends Vue {
 @import './style/common.sass'
 
 .table-header-block
-  display: block
+  display: table;
   width: $table-width;
 
 .table-header-cell
-  display: table-cell
+  box-sizing: border-box;
+  display: table-cell;
+  border: 1px solid #3366FF;
+  background-color: #6699FF;
+  color: white;
+  text-align: center;
+  height: 50px;
+  font-size: 20px;
+  vertical-align: middle; 
 
 .table-header-name
   width: $table-name-width;
