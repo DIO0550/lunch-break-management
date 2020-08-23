@@ -1,23 +1,25 @@
 <template>
   <div id="App">
-    <commonHeader></commonHeader>
-    <lunch-break-list />
+    <Header />
+    <LunchBreakList />
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 
 import LunchBreakList from './LunchBreakList.vue'
-import CommonHeader from './CommonHeader.vue'
+import Header from './Header.vue'
 import Footer from './Footer.vue'
 
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
 @Component({
   components: {
     LunchBreakList,
-    CommonHeader,
-    Footer,
+    Header,
+    Footer
   },
 })
 export default class App extends Vue {
