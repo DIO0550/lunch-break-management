@@ -3,7 +3,6 @@
       <div class="table-header-block">
         <div class="table-header-name table-header-cell">名前</div>
         <div class="table-header-status table-header-cell">ステータス</div>
-        <div class="table-header-start-time table-header-cell">ステータス開始時間</div>
         <div class="table-header-end-time table-header-cell">ステータス終了時間</div>
       </div>
       <LunchBreakData v-for="(user, index) in users" :key="user.id"

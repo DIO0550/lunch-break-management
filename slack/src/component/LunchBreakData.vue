@@ -4,10 +4,7 @@
       {{ display_name }}
     </div>
     <div class="table-data status-data">
-      {{ status_text }}
-    </div>
-    <div div class="table-data start-time-data">
-      {{ statusStartTime() }} 
+      <span v-html="emojiCharCode(status_emoji)"></span>{{ status_text }}
     </div>
     <div div class="table-data end-time-data">
       {{ statusEndTime() }} 
@@ -17,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+const emojiData = require('emoji-datasource')
 
 @Component
 export default class LunchBreakData extends Vue {
@@ -38,6 +36,7 @@ export default class LunchBreakData extends Vue {
   @Prop({ type: Number, required: true})
   row?: number;
 
+  
 
   rowClass(): string {
     if (this.row == undefined) {
@@ -51,26 +50,6 @@ export default class LunchBreakData extends Vue {
     return "odd-number-row"
   }
 
-  // statusStartTime(): string {
-  //   if (this.status_expiration == undefined) {
-  //     return "-"
-  //   }
-
-  //   if (this.status_expiration == 0) {
-  //     return "-"
-  //   }
-
-  //   if (this.isMaxEndTime()) {
-  //     return "-"
-  //   } 
-
-  //   let endDateTime = new Date(this.status_expiration * 1000);
-  //   // １時間後
-  //   endDateTime.setHours(endDateTime.getHours() - 1);
-  //   let startTime: string = endDateTime.toLocaleTimeString('ja-JP')
-
-  //   return endDateTime.getHours().toString()
-  // }
 
   statusEndTime(): string {
 
@@ -87,20 +66,23 @@ export default class LunchBreakData extends Vue {
 
     return endTime
   }
+
+  emojiCharCode(statusEmoji: string): string {
+    let emojiStr = statusEmoji.slice(1).slice(0, -1);
+    var filterResult: Array<any> = emojiData.filter( function( value: any ) { 
+      let shortName: string = value.short_name
+      return shortName == emojiStr;
+    });
+
+    if (filterResult.length < 1) {
+      return ""
+    }
+
+    let unified = filterResult[0].unified
   
-  isMaxEndTime(): boolean {
-    if (this.status_expiration == undefined) {
-      return false
-    }
-
-    if (this.status_expiration == 0) {
-      return false
-    }
-
-    let endDateTime = new Date(this.status_expiration * 1000);
-    
-    return (endDateTime.getHours() == 23 && endDateTime.getMinutes() == 59 && endDateTime.getSeconds() == 59);
+    return `&#x${unified};`.replace(/-/g, ";&#x")
   }
+  
 
 }
 </script>
