@@ -20,7 +20,7 @@
     "scripts": {
         "test": "jest",
         "dev": "webpack-dev-server --config ./configration/webpack.dev.js",
-        "build": "webpack --watch --config ./configration/webpack.prod.js",
+        "build": "webpack -p --watch --config ./configration/webpack.prod.js",
         "start": "webpack-dev-server --open --inline --progress --config ./configration/webpack.dev.js --history-api-fallback"
     },
     "dependencies": {},
