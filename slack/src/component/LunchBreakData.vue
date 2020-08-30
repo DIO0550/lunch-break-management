@@ -4,7 +4,7 @@
       {{ display_name }}
     </div>
     <div class="table-data status-data">
-      <span v-html="emojiCharCode(status_emoji)"></span>{{ status_text }}
+      {{ $sanitize(emojiCharCode(status_emoji)) }} {{ status_text }}
     </div>
     <div div class="table-data end-time-data">
       {{ statusEndTime() }} 

@@ -14,6 +14,8 @@ import Footer from './Footer.vue'
 
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import sanitizeHTML from 'sanitize-html';
+Vue.prototype.$sanitize = sanitizeHTML;
 
 @Component({
   components: {
