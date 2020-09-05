@@ -92,7 +92,7 @@ export default class LunchBreakData extends Vue {
 
 .table-block
   display: table;
-  width: $table-width;
+  width: 100%;
 
 .table-data
   display: table-cell;
@@ -110,15 +110,15 @@ export default class LunchBreakData extends Vue {
   background-color: #EEFFFF;
 
 .name-data
-  width: $table-name-width;
+  min-width: $table-name-width;
+  width: 33%;
 
 .status-data
-  width: $table-status-width;
-
-.start-time-data
-  width: $table-start-time-width;
+  min-width: $table-status-width;
+  width: 33%;
 
 .end-time-data
-  width: $table-start-time-width;
+  min-width: $table-start-time-width;
+  width: 33%;
   
 </style>

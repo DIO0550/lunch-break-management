@@ -91,7 +91,7 @@ export default class LunchBreakList extends Vue {
 
 .table-header-block
   display: table;
-  width: $table-width;
+  width: 100%;
 
 .table-header-cell
   box-sizing: border-box;
@@ -105,15 +105,15 @@ export default class LunchBreakList extends Vue {
   vertical-align: middle; 
 
 .table-header-name
-  width: $table-name-width;
+  min-width: $table-name-width;
+  width: 33%;
 
 .table-header-status
-  width: $table-status-width;
-
-.table-header-start-time 
-  width: $table-start-time-width;
+  min-width: $table-status-width;
+  width: 33%;
 
 .table-header-end-time
-  width: $table-start-time-width;
+  min-width: $table-start-time-width;
+  width: 33%;
 
 </style>
