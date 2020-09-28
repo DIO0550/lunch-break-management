@@ -45,6 +45,9 @@ export default class LunchBreakList extends Vue {
     console.log(err)
   }
 
+  /**
+   * ユーザープロファイルAPI呼び出し成功時
+   */
   successCallUsersProfileAPI(userID: string, response: any) {
     let result: boolean = response.ok
     if (!result) {
@@ -53,13 +56,19 @@ export default class LunchBreakList extends Vue {
 
     let profile: UserProfile = response.profile
     if (profile.display_name == undefined || profile.display_name.length == 0) {
-      profile.display_name = "test";
-      //return;
+      return;
     }
 
     if (this.isIgonoreUser(profile.display_name)) {
       return;
     }
+
+    // 含まれていれば、ステータスのみ更新する
+    if (this.isContainUser(userID)) {
+      this.updateStatus(userID, profile.status_text, profile.status_emoji, profile.status_expiration)
+      return
+    }
+
     let user: User = {
       id: userID,
       display_name: profile.display_name,
@@ -70,19 +79,48 @@ export default class LunchBreakList extends Vue {
     this.users.push(user)
   }
 
+
   failedCallUsersProfileAPI(err: any) {
     console.log(err)
   }
 
+  /** 
+   * 無視するユーザーか 
+   */
   isIgonoreUser(displayName: string): boolean {
     let ignoreUsers:Array<string> = slackConfig["ignore-users"];
     return ignoreUsers.includes(displayName)
   }
 
+  /**
+   * すでに含まれているユーザーか
+   */
+  isContainUser(userId: string): boolean {
+    return this.users.some(value => value.id == userId)
+  }
+
+  updateStatus(userId: string, status_text?: string, status_emoji?: string, status_expiration?: number) {
+    for (var user of this.users) {
+      if (user.id != userId) {
+        continue
+      }
+      user.status_text = status_text
+      user.status_emoji = status_emoji
+      user.status_expiration = status_expiration
+      break
+    }
+  }
+
   // mouted
   mounted() {
     callUserListAPI(this.successCallUsersListAPI, this.failedCallUserListAPI)
+
+    setInterval(() => {
+      callUserListAPI(this.successCallUsersListAPI, this.failedCallUserListAPI)
+    }, 1000);
   }
+
+
 }
 </script>
 

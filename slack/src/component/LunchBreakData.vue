@@ -36,8 +36,9 @@ export default class LunchBreakData extends Vue {
   @Prop({ type: Number, required: true})
   row?: number;
 
-  
-
+  /**
+   * 列のクラスを返す
+   */
   rowClass(): string {
     if (this.row == undefined) {
       return ""
@@ -51,6 +52,9 @@ export default class LunchBreakData extends Vue {
   }
 
 
+  /**
+   * ステータスの終了時間を返す
+   */
   statusEndTime(): string {
 
     if (this.status_expiration == undefined) {
@@ -67,6 +71,9 @@ export default class LunchBreakData extends Vue {
     return endTime
   }
 
+  /**
+   * 絵文字の文字コードを返す
+   */
   emojiCharCode(statusEmoji: string): string {
     let emojiStr = statusEmoji.slice(1).slice(0, -1);
     var filterResult: Array<any> = emojiData.filter( function( value: any ) { 
@@ -82,7 +89,6 @@ export default class LunchBreakData extends Vue {
   
     return `&#x${unified};`.replace(/-/g, ";&#x")
   }
-  
 
 }
 </script>
@@ -102,6 +108,7 @@ export default class LunchBreakData extends Vue {
   font-size: 20px;
   vertical-align: middle;
   box-sizing: border-box;
+  width: 100%;
 
 .odd-number-row
   background-color: #CCFFFF;
