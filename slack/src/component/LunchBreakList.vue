@@ -25,6 +25,7 @@ import LunchBreakData from './LunchBreakData.vue'
 
 import slackConfig from '../configration/slackConfig.json';
 import { callUserListAPI,  callUsersProfileAPI } from '../ts/api.ts'; 
+import { component } from 'vue/types/umd';
 
 @Component({
   components: {
@@ -39,10 +40,31 @@ export default class LunchBreakList extends Vue {
     for (var member of response.members) {
       callUsersProfileAPI(member.id, this.successCallUsersProfileAPI, this.failedCallUsersProfileAPI)
     }
+
+    this.users.sort(this.compareUserDisplayName)
   }
 
   failedCallUserListAPI(err: any) {
     console.log(err)
+  }
+
+  /**
+   * 表示名でソート
+   */
+  compareUserDisplayName(a: User, b: User): number {
+    if (a.display_name == undefined || b.display_name == undefined) {
+      return 0;
+    }
+
+    if (a.display_name < b.display_name) {
+      return 1
+    } 
+    if (a.display_name == b.display_name) {
+      return 0
+    }
+
+    return -1
+
   }
 
   /**
