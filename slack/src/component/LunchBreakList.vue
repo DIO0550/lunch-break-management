@@ -41,7 +41,6 @@ export default class LunchBreakList extends Vue {
       callUsersProfileAPI(member.id, this.successCallUsersProfileAPI, this.failedCallUsersProfileAPI)
     }
 
-    this.users.sort(this.compareUserDisplayName)
   }
 
   failedCallUserListAPI(err: any) {
@@ -56,7 +55,7 @@ export default class LunchBreakList extends Vue {
       return 0;
     }
 
-    if (a.display_name < b.display_name) {
+    if (a.display_name > b.display_name) {
       return 1
     } 
     if (a.display_name == b.display_name) {
@@ -99,6 +98,8 @@ export default class LunchBreakList extends Vue {
       status_expiration: profile.status_expiration
     }
     this.users.push(user)
+
+    this.users.sort(this.compareUserDisplayName)
   }
 
 
