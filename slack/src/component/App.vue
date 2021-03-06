@@ -28,5 +28,5 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
 </style>
