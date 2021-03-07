@@ -39,7 +39,7 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    command: [ bash, -c, 'npm run start']
+    command: [ bash, -c, 'npm -D install']
     volumes:
      - ./src/frontend:/frontend
     ports:

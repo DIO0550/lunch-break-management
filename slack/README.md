@@ -45,3 +45,5 @@ https://api.slack.com/apps
      - slack-api-key => apiキーを設定する。  
      - ignore-users => 表示をしないユーザーを設定する。(Slackbotなど)
      ```
+2. node_modulesインストール  
+以下のフォルダで、`npm -D install`を実行する。
