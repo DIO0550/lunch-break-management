@@ -1,7 +1,7 @@
-FROM centos7 AS dev
+FROM ubuntu:18.04 AS dev
 
 RUN apt-get update 
-RUN apt-get install -y yarn
+RUN apt-get install -y yarn curl
 RUN apt-get install -y nodejs npm && npm install n -g && n 12.0.0
 
 

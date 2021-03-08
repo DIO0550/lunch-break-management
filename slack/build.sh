@@ -1,4 +1,5 @@
 docker-compose build --no-cache
+docker-compose run --rm frontend npm install -D 
 docker-compose run --rm frontend npm run build
 mkdir product/dist
 cp src/dist/build.js product/dist/build.js

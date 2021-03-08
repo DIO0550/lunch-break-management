@@ -5,6 +5,7 @@ services:
   frontend:
     build: 
         context: .
+        target: dev
     logging:
       driver: "json-file"
       options:
