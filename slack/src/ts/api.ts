@@ -5,13 +5,16 @@ const TOKEN_CONFIG_KEY = "slack-api-key"
 
 const Instance = axios.create({
     baseURL: `https://slack.com/api`,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     responseType: 'json'
 })
 
+const tokenParams = new URLSearchParams();
+tokenParams.append("token", slackConfig[TOKEN_CONFIG_KEY])
+
 export function callUserListAPI(success: (response: any) => void, failed: (err: any) => void) {
-    const userProfileURL = "/users.list?token=" + slackConfig[TOKEN_CONFIG_KEY]
-    Instance(userProfileURL).then(function (response: any) {
+    const userListURL = "/users.list"
+    Instance.post(userListURL, tokenParams).then(function (response: any) {
             success(response.data)
         })
         .catch(function (err: any) {
@@ -20,8 +23,8 @@ export function callUserListAPI(success: (response: any) => void, failed: (err: 
 }
 
 export function callUsersProfileAPI(userID: string, success: (userID: string, response: any) => void, failed: (err: any) => void) {
-    let userListURL: string = "users.profile.get?token=" + slackConfig[TOKEN_CONFIG_KEY] + "&user=" + userID
-    Instance(userListURL)
+    let userProfileURL: string = "users.profile.get?user=" + userID
+    Instance.post(userProfileURL, tokenParams)
         .then(function (response: any)  {
             success(userID, response.data)
         })
