@@ -32,3 +32,14 @@ export function callUsersProfileAPI(userID: string, success: (userID: string, re
             failed(err)
         });
 }
+
+export function callUsersGetPresenceAPI(userID: string, success: (userID: string, response: any) => void, failed: (err: any) => void) {
+    let userProfileURL: string = "users.getPresence?user=" + userID
+    Instance.post(userProfileURL, tokenParams)
+        .then(function (response: any) {
+            success(userID, response.data)
+        })
+        .catch(function (err: any) {
+            failed(err)
+        });
+}
