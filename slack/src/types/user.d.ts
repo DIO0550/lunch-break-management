@@ -1,6 +1,6 @@
 export interface User {
     id?: string;
-    online?: boolean; 
+    presence?: string; 
     display_name?: string;
     status_text?: string;
     status_emoji?: string;

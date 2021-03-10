@@ -2,11 +2,13 @@
   <div>
       <div class="table-header-block">
         <div class="table-header-name table-header-cell">名前</div>
+        <div class="table-header-online table-header-cell">アクティブ</div>
         <div class="table-header-status table-header-cell">ステータス</div>
         <div class="table-header-end-time table-header-cell">ステータス終了時間</div>
       </div>
       <LunchBreakData v-for="(user, index) in users" :key="user.id"
         :id="user.id"
+        :presence="user.presence"
         :display_name="user.display_name"
         :status_text="user.status_text"
         :status_emoji="user.status_emoji"
@@ -24,7 +26,7 @@ import { User, UserProfile } from "../types/user"
 import LunchBreakData from './LunchBreakData.vue'
 
 import slackConfig from '../configration/slackConfig.json';
-import { callUserListAPI,  callUsersProfileAPI } from '../ts/api.ts'; 
+import { callUserListAPI,  callUsersProfileAPI, callUsersGetPresenceAPI } from '../ts/api.ts'; 
 import { component } from 'vue/types/umd';
 
 @Component({
@@ -87,6 +89,7 @@ export default class LunchBreakList extends Vue {
     // 含まれていれば、ステータスのみ更新する
     if (this.isContainUser(userID)) {
       this.updateStatus(userID, profile.status_text, profile.status_emoji, profile.status_expiration)
+      callUsersGetPresenceAPI(userID, this.successCallUsersGetPresenceAPI, this.failedCallUsersGetPresenceAPI)
       return
     }
 
@@ -98,12 +101,30 @@ export default class LunchBreakList extends Vue {
       status_expiration: profile.status_expiration
     }
     this.users.push(user)
-
     this.users.sort(this.compareUserDisplayName)
+    callUsersGetPresenceAPI(userID, this.successCallUsersGetPresenceAPI, this.failedCallUsersGetPresenceAPI)
   }
 
-
+  /**
+   * ユーザープロファイルAPI呼び出し失敗時
+   */
   failedCallUsersProfileAPI(err: any) {
+    console.log(err)
+  }
+
+  successCallUsersGetPresenceAPI(userID: string, response: any) {
+    let result: boolean = response.ok
+    if (!result) {
+      return;
+    }
+    
+    this.updateActive(userID, response.presence);
+  }
+
+  /**
+   * ユーザープレゼンスAPI呼び出し失敗時
+   */
+  failedCallUsersGetPresenceAPI(err: any) {
     console.log(err)
   }
 
@@ -122,6 +143,9 @@ export default class LunchBreakList extends Vue {
     return this.users.some(value => value.id == userId)
   }
 
+  /**
+   * ステータス更新
+   */
   updateStatus(userId: string, status_text?: string, status_emoji?: string, status_expiration?: number) {
     for (var user of this.users) {
       if (user.id != userId) {
@@ -134,13 +158,26 @@ export default class LunchBreakList extends Vue {
     }
   }
 
+  /**
+   * 
+   */
+  updateActive(userId: string, presence: string) {
+      for (var user of this.users) {
+      if (user.id != userId) {
+        continue
+      }
+      user.presence = presence
+      break
+    }
+  }
+
   // mouted
   mounted() {
     callUserListAPI(this.successCallUsersListAPI, this.failedCallUserListAPI)
 
     setInterval(() => {
       callUserListAPI(this.successCallUsersListAPI, this.failedCallUserListAPI)
-    }, 1000);
+    }, 10000);
   }
 
 
@@ -167,14 +204,18 @@ export default class LunchBreakList extends Vue {
 
 .table-header-name
   min-width: $table-name-width;
-  width: 33%;
+  width: 30%;
+
+.table-header-online
+  min-width: $table-status-width;
+  width: 10%;
 
 .table-header-status
   min-width: $table-status-width;
-  width: 33%;
+  width: 30%;
 
 .table-header-end-time
   min-width: $table-start-time-width;
-  width: 33%;
+  width: 30%;
 
 </style>

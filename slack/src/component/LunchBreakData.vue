@@ -4,6 +4,9 @@
       {{ display_name }}
     </div>
     <div class="table-data status-data">
+      {{ onlineStatus() }}
+    </div>
+    <div class="table-data status-data">
       {{ $sanitize(emojiCharCode(status_emoji)) }} {{ status_text }}
     </div>
     <div div class="table-data end-time-data">
@@ -20,6 +23,9 @@ const emojiData = require('emoji-datasource')
 export default class LunchBreakData extends Vue {
   @Prop({ type: String, required: true })
   id?: string;
+
+  @Prop({ type: String, required: false})
+  presence?: string;
 
   @Prop({ type: String, required: true })
   display_name?: string;
@@ -51,6 +57,14 @@ export default class LunchBreakData extends Vue {
     return "odd-number-row"
   }
 
+
+  onlineStatus(): string {
+    if (this.presence == undefined) {
+      return "away"
+    }
+
+    return this.presence
+  }
 
   /**
    * ステータスの終了時間を返す
@@ -118,14 +132,18 @@ export default class LunchBreakData extends Vue {
 
 .name-data
   min-width: $table-name-width;
-  width: 33%;
+  width: 30%;
+
+.online-data
+  min-width: $table-status-width;
+  width: 10%;
 
 .status-data
   min-width: $table-status-width;
-  width: 33%;
+  width: 30%;
 
 .end-time-data
   min-width: $table-start-time-width;
-  width: 33%;
+  width: 30%;
   
 </style>
